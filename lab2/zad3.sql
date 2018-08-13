@@ -5,6 +5,8 @@
 -- 2. 2 ^ 20,
     select 2^20; -- 1048576
 -- 3. ★ √3,
-    select sqrt(3); -- 1.73205080756888
+    select sqrt(3); -- 1.73205080756888 moze byc tez tak: select |/3;
 -- 4. ★ π.
     select pi(); -- 3.14159265358979
+
+-- TIP: tutaj wiecej o operatorach i funkcjach matematycznych: https://www.postgresql.org/docs/7.1/static/functions-math.html
