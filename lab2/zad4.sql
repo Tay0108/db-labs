@@ -3,5 +3,8 @@
 -- Napisz zapytanie w języku SQL wyświetlające informacje na temat czekoladek (IDCzekoladki, Nazwa, Masa, Koszt), których:
 
 -- 1. masa mieści się w przedziale od 15 do 24 g,
+    select idczekoladki, nazwa, masa, koszt from czekoladki where masa >= 15 and masa <= 24;
 -- 2. koszt produkcji mieści się w przedziale od 25 do 35 gr,
+    select idczekoladki, nazwa, masa, koszt from czekoladki where koszt >= 0.25 and koszt <= 0.35;
 -- 3. ★ masa mieści się w przedziale od 25 do 35 g lub koszt produkcji mieści się w przedziale od 15 do 24 gr.
+    select idczekoladki, nazwa, masa, koszt from czekoladki where (masa >= 25 and masa <=35) or (koszt >= 0.15 and koszt <= 0.24);
