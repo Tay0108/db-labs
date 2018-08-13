@@ -7,6 +7,7 @@ psql -h localhost -p 5432 -U postgres (polaczenie sie z serwerem baz danych)
 -- Podpowiedź: \c baza podpina się pod bazę danych
 
 -- 2. Pobierz plik cukiernia.sql, otwórz go w edytorze i przeanalizuj jego zawartość.
+TIP: proponuję zalożyć bazę danych cukiernia i tam wgrać ten plik: create database cukiernia;
 -- 3. Wykonaj skrypt: \i cukiernia.sql
 -- 4. Ponownie wykonaj polecenie \dt.
 -- 5. Wykonaj poniższe zapytania:

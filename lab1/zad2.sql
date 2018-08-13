@@ -2,6 +2,7 @@
 -- 2. Uruchom psql z katalogu, w którym zapisałeś skrypt.
 psql -h localhost -p 5432 -U postgres
 -- 3. Utwórz schemat siatkowka:
+-- TIP: proponuję tą schemę zrobić na bazie siatkowka: create database siatkowka;
 create schema siatkowka;
 
 -- 4. Wykonaj skrypt: \i schemat_siatkowka.sql (Pro tip: jak nie dziala to wywal begin i commit, cos z transakcja jest nie tak).
@@ -11,7 +12,7 @@ create schema siatkowka;
 -- 6. Wykonaj zapytanie. Dlaczego serwer generuje błąd? Jak należy zmodyfikować zapytanie?
 select imie, nazwisko from siatkarki;
 
-Serwer generuje blad, bo nie ma schema siatkowka w search_path. Trzeba wiec dodac do zapytania schema:
+-- Serwer generuje blad, bo nie ma schema siatkowka w search_path. Trzeba wiec dodac do zapytania schema:
 select imie, nazwisko from siatkowka.siatkarki;
 
 -- 7. Wykonaj poniższe polecenia. Przeanalizuj wyniki ich działania.
