@@ -1,9 +1,20 @@
 -- baza danych: cukiernia
 
--- Korzystając z operatorów UNION, INTERSECT, EXCEPT napisz zapytanie w języku SQL
--- wyświetlające:
+-- Korzystając z operatorów UNION, INTERSECT, EXCEPT napisz zapytanie w języku SQL wyświetlające:
 
 -- 1. identyfikatory klientów, którzy nigdy nie złożyli żadnego zamówienia,
+select idklienta from klienci except
+select idklienta from zamowienia;
+
 -- 2. identyfikatory pudełek, które nigdy nie zostały zamówione,
+select idpudelka from pudelka except
+select idpudelka from artykuly;
+
 -- 3. ★ nazwy klientów, czekoladek i pudełek, które zawierają rz (lub Rz),
+select nazwa from klienci where nazwa ilike '%rz%' union
+select nazwa from czekoladki where nazwa ilike '%rz%' union
+select nazwa from pudelka where nazwa ilike '%rz%';
+
 -- 4. ★ identyfikatory czekoladek, które nie występują w żadnym pudełku.
+select idczekoladki from czekoladki except
+select idczekoladki from zawartosc;
