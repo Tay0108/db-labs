@@ -5,7 +5,7 @@ psql -h localhost -p 5432 -U postgres
 -- TIP: proponuję tą schemę zrobić na bazie siatkowka: create database siatkowka;
 create schema siatkowka;
 
--- 4. Wykonaj skrypt: \i schemat_siatkowka.sql (Pro tip: jak nie dziala to wywal begin i commit, cos z transakcja jest nie tak).
+-- 4. Wykonaj skrypt: \i schemat_siatkowka.sql (Pro tip: jak nie dziala to zmien kodowanie \encoding UTF8 albo na takie jak na bazie).
 
 -- 5. Wykonaj polecenia \dn i \dt i przeanalizuj ich wyniki.
 

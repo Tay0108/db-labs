@@ -1,9 +1,22 @@
 -- baza danych: siatkówka
 
 -- Napisz zapytanie w języku SQL wyświetlające:
+-- PRO TIP: Dodaj sobie set search_path to public, siatkowka; zeby widac bylo scheme na \dt i zeby moc nie pisac nazwy schemy.
+
+select * from siatkowka.statystyki;
 
 -- 1. identyfikator meczu, sumę punktów zdobytych przez gospodarzy i sumę punktów zdobytych przez gości,
+select idmeczu, (select sum(sum1) from unnest(gospodarze) sum1), (select sum(sum2) from unnest(goscie) sum2) from siatkowka.statystyki;
+
 -- 2. identyfikator meczu, sumę punktów zdobytych przez gospodarzy i sumę punktów zdobytych przez gości, dla meczów, które skończyły się po 5 setach i zwycięzca ostatniego seta zdobył ponad 15 punktów,
+select idmeczu, (select sum(sum1) from unnest(gospodarze) sum1), (select sum(sum2) from unnest(goscie) sum2) from siatkowka.statystyki where array_length(gospodarze, 1) = 5  and (gospodarze[5] > 15 or goscie[5] > 15);
+    -- UWAGA: postgres indeksuje tablice od 1. Populacja szczesliwych Cormenow zwieksza sie.
+    -- zamiast array_length(array, 1) mozna uzyc cardinality(array);
+
 -- 3. identyfikator i wynik meczu w formacie x:y, np. 3:1 (wynik jest pojedynczą kolumną – napisem),
+    TODO!!!!
 -- 4. ★ identyfikator meczu, sumę punktów zdobytych przez gospodarzy i sumę punktów zdobytych przez gości, dla meczów, w których gospodarze zdobyli ponad 100 punktów,
+select idmeczu, (select sum(sum1) from unnest(gospodarze) sum1), (select sum(sum2) from unnest(goscie) sum2) from siatkowka.statystyki where (select sum(sum2) from unnest(goscie) sum2) > 100;
+
 -- 5. ★ identyfikator meczu, liczbę punktów zdobytych przez gospodarzy w pierwszym secie, sumę punktów zdobytych w meczu przez gospodarzy, dla meczów, w których pierwiastek kwadratowy z liczby punktów zdobytych w pierwszym secie jest mniejszy niż logarytm o podstawie 2 z sumy punktów zdobytych w meczu. ;)
+select idmeczu, gospodarze[1], (select sum(sum1) from unnest(gospodarze) sum1) from siatkowka.statystyki where sqrt(gospodarze[1] + goscie[1]) < log(2, ((select sum(sum1) from unnest(gospodarze) sum1)) + (select sum(sum2) from unnest(goscie) sum2));

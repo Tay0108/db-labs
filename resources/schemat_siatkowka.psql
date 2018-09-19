@@ -1781,10 +1781,4 @@ insert into siatkowka.punktujace values(10, 'stal', 90, 6);
 insert into siatkowka.punktujace values(11, 'stal', 90, 3);
 insert into siatkowka.punktujace values(16, 'stal', 90, 8);
 
-
-
-
-
-
-
 commit;
