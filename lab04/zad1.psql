@@ -10,4 +10,10 @@ SELECT k.nazwa, z.idzamowienia FROM klienci k JOIN zamowienia z ON z.idklienta=k
 SELECT k.nazwa, z.idzamowienia FROM klienci k JOIN zamowienia z USING (idklienta);
 
 -- 2. W którym zapytaniu występuje iloczyn kartezjański?
+-- zapytanie nr 2.
 -- 3. Które zapytanie dostarcza bezwartościowych danych?
+-- zapytanie nr 2 dostarcza bezużytecznych danych, gdyz laczy kazdy wiersz z kazdym (iloczyn kartezjanski).
+-- TIP:
+-- zapytania 3-6 zwracaja to samo.
+
+-- NATURAL JOIN - laczy po wszystkich kolumnach, ktore maja jednakowa nazwe w obu tabelach.
