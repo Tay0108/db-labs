@@ -3,9 +3,10 @@
 -- Napisz zapytanie w języku SQL wyświetlające informacje na temat klientów (nazwa, ulica, miejscowość), którzy:
 
 -- 1. złożyli zamówienia z datą realizacji nie starszą niż sprzed pięciu lat,
-    select k.nazwa, k.ulica, k.miejscowosc from klienci k join zamowienia z on (z.idklienta=k.idklienta and ...);
+    select z.datarealizacji, k.nazwa, k.ulica, k.miejscowosc from klienci k join zamowienia z on (z.idklienta=k.idklienta and (now() - interval '5 years') < z.datarealizacji);
+    select z.datarealizacji, k.nazwa, k.ulica, k.miejscowosc from klienci k  natural join zamowienia z where (now() - interval '5 years') < z.datarealizacji;
 -- 2. zamówili pudełko Kremowa fantazja lub Kolekcja jesienna,
-    select k.nazwa, k.ulica, k.miejscowosc from klienci k;
+    select k.nazwa, k.ulica, k.miejscowosc, p.nazwa from klienci k natural join zamowienia z natural join artykuly a join pudelka p using (idpudelka) where (p.nazwa in('Kremowa fantazja', 'Kolekcja jesienna'));
 -- 3. złożyli przynajmniej jedno zamówienie,
     select k.nazwa, k.ulica, k.miejscowosc from klienci k join zamowienia z on(z.idklienta=k.idklienta);
 -- 4. nie złożyli żadnych zamówień,
@@ -20,3 +21,4 @@
 
 -- Wskazówka:
 -- W punkcie 4 można wykorzystać złączenie zewnętrzne.
+-- w punkcie 2 z niewiadomych mi przyczyn nie działa natural join na pudełach. IMO powinien działać, ale zmieniłem na using bo nie działał.
