@@ -3,12 +3,19 @@
 -- Napisz zapytanie w języku SQL wyświetlające informacje na temat klientów (nazwa, ulica, miejscowość), którzy:
 
 -- 1. złożyli zamówienia z datą realizacji nie starszą niż sprzed pięciu lat,
+    select k.nazwa, k.ulica, k.miejscowosc from klienci k join zamowienia z on (z.idklienta=k.idklienta and ...);
 -- 2. zamówili pudełko Kremowa fantazja lub Kolekcja jesienna,
+    select k.nazwa, k.ulica, k.miejscowosc from klienci k;
 -- 3. złożyli przynajmniej jedno zamówienie,
+    select k.nazwa, k.ulica, k.miejscowosc from klienci k join zamowienia z on(z.idklienta=k.idklienta);
 -- 4. nie złożyli żadnych zamówień,
+    select k.nazwa, k.ulica, k.miejscowosc from klienci k;
 -- 5. ★ złożyli zamówienia z datą realizacji w listopadzie 2013,
+    select k.nazwa, k.ulica, k.miejscowosc, z.datarealizacji from klienci k join zamowienia z on (z.idklienta=k.idklienta and date_part('month', z.datarealizacji)=11 and date_part('year',z.datarealizacji)=2013);
 -- 6. ★ zamówili co najmniej 2 sztuki pudełek Kremowa fantazja lub Kolekcja jesienna w ramach jednego zamówienia,
+
 -- 7. ★ zamówili pudełka, które zawierają czekoladki z migdałami.
+
 -- 8. W każdym zapytaniu należy dodać dodatkowe pola (poza danymi klientów), które pozwolą sprawdzić, czy wynik jest poprawny np. data realizacji, nazwa pudełka itd.
 
 -- Wskazówka:

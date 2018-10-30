@@ -4,8 +4,13 @@
 
 -- 1. zostały złożone przez klienta, który ma na imię Antoni,
     select k.nazwa, z.datarealizacji, z.idzamowienia from zamowienia z join klienci k on (z.idklienta = k.idklienta and nazwa like '%Antoni');
+    select k.nazwa, z.datarealizacji, z.idzamowienia from zamowienia z natural join klienci k where nazwa like '%Antoni';
 -- 2. zostały złożone przez klientów z mieszkań (zwróć uwagę na pole ulica),
     select k.ulica, z.datarealizacji, z.idzamowienia from zamowienia z join klienci k on (z.idklienta = k.idklienta and ulica like '%/%');
+    select k.ulica, z.datarealizacji, z.idzamowienia from zamowienia z natural join klienci k where ulica like '%/%';
 -- 3. ★ zostały złożone przez klienta z Krakowa do realizacji w listopadzie 2013 roku.
     select k.miejscowosc, z.datarealizacji, z.idzamowienia from zamowienia z join klienci k on (z.idklienta = k.idklienta and k.miejscowosc = 'Kraków' and date_part('month', z.datarealizacji) = '11' and date_part('year', z.datarealizacji) = '2013');
+    select k.miejscowosc, z.datarealizacji, z.idzamowienia from zamowienia z natural join klienci k where k.miejscowosc = 'Kraków' and date_part('month', z.datarealizacji) = '11' and date_part('year', z.datarealizacji) = '2013';
 -- W każdym zapytaniu należy dodać dodatkowe pola (poza informacjami o zamówieniu), które pozwolą sprawdzić, czy wynik jest poprawny np. nazwa klienta, ulica etc.
+
+-- TIP: lepsze sa rozwiazania te nizej. Na kolokwium mamy uzywac jak najbardziej optymalnych.
