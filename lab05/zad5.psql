@@ -1,0 +1,11 @@
+-- Napisz zapytanie w języku SQL wyświetlające informacje na temat:
+
+-- 1. liczby zamówień na poszczególne kwartały,
+
+-- 2. liczby zamówień na poszczególne miesiące,
+
+-- 3. ★ liczby zamówień do realizacji w poszczególnych tygodniach,
+
+-- 4. ★ liczby zamówień do realizacji w poszczególnych miejscowościach.
+
+-- Uwaga: Upewnij się, że zapytania zwracają sensowne dane, np. liczba zamówień w styczniu niezależnie od roku jest bezsensowna.

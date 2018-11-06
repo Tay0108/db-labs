@@ -1,0 +1,7 @@
+-- Zakładając, że koszt wytworzenia pudełka czekoladek jest równy kosztowi wytworzenia zawartych w nim czekoladek, napisz zapytanie wyznaczające:
+
+-- 1. zysk ze sprzedaży jednej sztuki poszczególnych pudełek (różnica między ceną pudełka i kosztem jego wytworzenia),
+
+-- 2. zysk ze sprzedaży zamówionych pudełek,
+
+-- 3. ★ zysk ze sprzedaży wszystkich pudełek czekoladek w cukierni.

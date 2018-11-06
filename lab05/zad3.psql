@@ -1,0 +1,9 @@
+-- Napisz zapytanie w języku SQL wyświetlające informacje na temat:
+
+-- 1. liczby zamówień na poszczególne dni,
+
+-- 2. łącznej liczby wszystkich zamówień,
+
+-- 3. ★ łącznej wartości wszystkich zamówień,
+
+-- 4. ★ klientów, liczby złożonych przez nich zamówień i łącznej wartości złożonych przez nich zamówień.

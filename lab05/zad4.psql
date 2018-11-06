@@ -1,0 +1,9 @@
+-- Napisz zapytanie w języku SQL wyświetlające informacje na temat:
+
+-- 1. czekoladki, która występuje w największej liczbie pudełek,
+
+-- 2. pudełka, które zawiera najwięcej czekoladek bez orzechów,
+
+-- 3. ★ czekoladki, która występuje w najmniejszej liczbie pudełek,
+
+-- 4. ★ pudełka, które jest najczęściej zamawiane przez klientów.

@@ -1,0 +1,9 @@
+-- Napisz zapytanie w języku SQL wyświetlające informacje na temat:
+
+-- 1. masy poszczególnych pudełek,
+select sum(masa*sztuk) from zawartosc natural join czekoladki group by idpudelka;
+-- 2. pudełka o największej masie,
+select sum(masa*sztuk) from zawartosc natural join czekoladki group by idpudelka order by sum(masa*sztuk) desc limit 1;
+-- 3. ★ średniej masy pudełka w ofercie cukierni,
+select avg(s.suma) from (select sum(masa*sztuk) as suma from zawartosc natural join czekoladki group by idpudelka) as s;
+-- 4. ★ średniej wagi pojedynczej czekoladki w poszczególnych pudełkach,
