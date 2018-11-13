@@ -1,0 +1,42 @@
+-- 1. Napisz i wykonaj zapytanie (użyj INSERT), które dodaje do tabeli czekoladki następujące informacje:
+-- idczekoladki: W98,
+-- nazwa: Biały kieł,
+-- czekolada: biała,
+-- orzechy: laskowe,
+-- nadzienie: marcepan,
+-- opis: Rozpływające się w rękach i kieszeniach,
+-- koszt: 45 gr,
+-- masa: 20 g.
+insert into czekoladki values('W98', 'Biały kieł', 'biała', 'laskowe', 'marcepan', 'Rozpływające się w rękach i kieszeniach', 0.45, 20) returning *;
+
+-- 2. Napisz i wykonaj trzy zapytania (użyj INSERT), które dodadzą do tabeli klienci następujące dane osobowe:
+-- idklienta: 90,
+-- nazwa: Matusiak Edward, 
+-- ulica: Kropiwnickiego 6/3,
+-- miejscowosc: Leningrad,
+-- kod: 31-471,
+-- telefon: 031 423 45 38,
+
+-- idklienta: 91,
+-- nazwa: Matusiak Alina,
+-- ulica: Kropiwnickiego 6/3,
+-- miejscowosc: Leningrad,
+-- kod: 31-471,
+-- telefon: 031 423 45 38,
+
+-- idklienta: 92,
+-- nazwa: Kimono Franek,
+-- ulica: Karateków 8,
+-- miejscowosc: Mistrz,
+-- kod: 30-029,
+-- telefon: 501 498 324.
+
+insert into klienci values(90, 'Matusiak Edward', 'Kropinickiego 6/3', 'Leningrad', '31-471', '031 423 45 38') returning *;
+insert into klienci values(91, 'Matusiak Alina', 'Kropinickiego 6/3', 'Leningrad', '31-471', '031 423 45 38') returning *;
+insert into klienci values(92, 'Kimono Franek', 'Karateków 8', 'Mistrz', '30-029', '501 498 324') returning *;
+select * from klienci;
+-- Dodaj do tabeli klienci dane Izy Matusiak (idklienta 93). Pozostałe dane osobowe Izy Matusiak muszą być takie same jak dla Pana Edwarda Matusiaka. Użyj podzapytań.
+insert into klienci (select 95, 'Matusiak Iza', ulica, miejscowosc, kod, telefon from klienci where klienci.idklienta = 90) returning *;
+-- Sprawdź, czy napisane przez Ciebie zapytania odniosły pożądany skutek tj. czy do w/w tabel zostały dodane odpowiednie wiersze, wykorzystaj SELECT.
+
+-- PRO TIP: Uzywam returning *; zeby sprawdzic, czy dziala
