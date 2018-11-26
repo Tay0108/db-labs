@@ -8,17 +8,19 @@
 -- 2. zamówili pudełko Kremowa fantazja lub Kolekcja jesienna,
     select k.nazwa, k.ulica, k.miejscowosc, p.nazwa from klienci k natural join zamowienia z natural join artykuly a join pudelka p using (idpudelka) where (p.nazwa in('Kremowa fantazja', 'Kolekcja jesienna'));
 -- 3. złożyli przynajmniej jedno zamówienie,
-    select k.nazwa, k.ulica, k.miejscowosc from klienci k join zamowienia z on(z.idklienta=k.idklienta);
+    select distinct k.nazwa, k.ulica, k.miejscowosc from klienci k natural join zamowienia z;
 -- 4. nie złożyli żadnych zamówień,
-    select k.nazwa, k.ulica, k.miejscowosc from klienci k;
+    select distinct k.nazwa, k.ulica, k.miejscowosc, z.idzamowienia from klienci k natural left join zamowienia z where z.idzamowienia is null order by nazwa asc;
 -- 5. ★ złożyli zamówienia z datą realizacji w listopadzie 2013,
     select k.nazwa, k.ulica, k.miejscowosc, z.datarealizacji from klienci k join zamowienia z on (z.idklienta=k.idklienta and date_part('month', z.datarealizacji)=11 and date_part('year',z.datarealizacji)=2013);
 -- 6. ★ zamówili co najmniej 2 sztuki pudełek Kremowa fantazja lub Kolekcja jesienna w ramach jednego zamówienia,
-
+    select k.nazwa, k.ulica, k.miejscowosc from klienci k natural join zamowienia natural join artykuly join pudelka p using(idpudelka) where (p.nazwa='Kremowa fantazja' or p.nazwa='Kolekcja jesienna') and sztuk=2;
 -- 7. ★ zamówili pudełka, które zawierają czekoladki z migdałami.
+    select distinct k.nazwa, k.ulica, k.miejscowosc, cz.orzechy from (klienci k natural join zamowienia natural join artykuly join zawartosc using(idpudelka) join czekoladki cz using (idczekoladki)) where cz.orzechy='migdały';
 
--- 8. W każdym zapytaniu należy dodać dodatkowe pola (poza danymi klientów), które pozwolą sprawdzić, czy wynik jest poprawny np. data realizacji, nazwa pudełka itd.
+--W każdym zapytaniu należy dodać dodatkowe pola (poza danymi klientów), które pozwolą sprawdzić, czy wynik jest poprawny np. data realizacji, nazwa pudełka itd.
 
 -- Wskazówka:
 -- W punkcie 4 można wykorzystać złączenie zewnętrzne.
 -- w punkcie 2 z niewiadomych mi przyczyn nie działa natural join na pudełach. IMO powinien działać, ale zmieniłem na using bo nie działał.
+-- Już wiem czemu nie działał - tam są dwie kolumny (idpudelka i nazwa), które się powtarzają i joinując nazwę nic się nie pokrywa, dlatego zwraca 0.
