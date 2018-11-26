@@ -3,7 +3,15 @@
 -- Napisz zapytanie w języku SQL wyświetlające informacje na temat pudełek i ich zawartości (nazwa, opis, nazwa czekoladki, opis czekoladki):
 
 -- 1. wszystkich pudełek,
+    select p.nazwa, p.opis, cz.nazwa, cz.opis from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki);
 -- 2. pudełka o wartości klucza głównego heav,
+    select p.idpudelka, p.nazwa, p.opis, cz.nazwa, cz.opis from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where idpudelka='heav';
 -- 3. ★ pudełek, których nazwa zawiera słowo Kolekcja.
+    select p.nazwa, p.opis, cz.nazwa, cz.opis from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where p.nazwa ilike '%kolekcja%';
 
 -- W każdym zapytaniu należy dodać dodatkowe pola (poza danymi o pudełkach), które pozwolą sprawdzić, czy wynik jest poprawny.
+
+-- ~~ is equivalent to LIKE
+-- ~~* is equivalent to ILIKE
+-- !~~ is equivalent to NOT LIKE
+-- !~~* is equivalent to NOT ILIKE
