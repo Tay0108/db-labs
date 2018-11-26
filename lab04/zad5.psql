@@ -4,14 +4,28 @@
 -- (uwaga: może być konieczne użycie konstrukcji z poprzednich laboratoriów):
 
 -- 1. zawierają czekoladki o wartości klucza głównego d09
+    select p.nazwa, p.opis, p.cena, z.idczekoladki from pudelka p natural join zawartosc z where z.idczekoladki='d09';
 -- 2. zawierają przynajmniej jedną czekoladkę, której nazwa zaczyna się na S,
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena, cz.nazwa from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where cz.nazwa like 'S%';
 -- 3. zawierają przynajmniej 4 sztuki czekoladek jednego gatunku (o takim samym kluczu głównym),
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena, z.sztuk from pudelka p natural join zawartosc z where z.sztuk>=4;  
 -- 4. zawierają czekoladki z nadzieniem truskawkowym,
+    select distinct p.nazwa, p.opis, p.cena, cz.nadzienie from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where nadzienie='truskawki';
 -- 5. nie zawierają czekoladek w gorzkiej czekoladzie,
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena from pudelka p natural join zawartosc join czekoladki cz using (idczekoladki) except
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena from pudelka p natural join zawartosc join czekoladki cz using (idczekoladki) where cz.czekolada='gorzka';
+
 -- 6. ★ zawierają co najmniej 3 sztuki czekoladki Gorzka truskawkowa,
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena, z.sztuk, cz.czekolada, cz.nadzienie from pudelka p natural join zawartosc z join czekoladki cz using (idczekoladki) where czekolada='gorzka' and nadzienie='truskawki' and z.sztuk>=3;
+
 -- 7. ★ nie zawierają czekoladek z orzechami,
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) except
+    select distinct on(p.nazwa) p.nazwa, p.opis, p.cena from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where cz.orzechy is not null;
+
 -- 8. ★ zawierają czekoladki Gorzka truskawkowa,
+
 -- 9. ★ zawierają przynajmniej jedną czekoladkę bez nadzienia.
+
 
 -- W każdym zapytaniu należy dodać dodatkowe pola (poza danymi o pudełkach), które pozwolą sprawdzić, czy wynik jest poprawny.
 
