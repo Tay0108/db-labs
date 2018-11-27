@@ -1,0 +1,25 @@
+-- baza danych: firma
+
+-- Przygotuj skrypt implementujący bazę danych firma zgodnie z przedstawionym poniżej opisem.
+
+-- Uwaga: Baza danych ma zostać umieszczona w schemacie firma.
+
+-- Relacja dzialy zawiera atrybuty:
+
+-- iddzialu - typ znakowy, dokładnie 5 znaków, klucz główny,
+-- nazwa - typ znakowy, maksymalnie 32 znaki, wymagane,
+-- lokalizacja - typ znakowy, maksymalnie 24 znaki, wymagane,
+-- kierownik - liczba całkowita, klucz obcy odwołujący się do pola idpracownika w relacji pracownicy.
+-- Relacja pracownicy zawiera atrybuty:
+
+-- idpracownika - liczba całkowita, klucz główny,
+-- nazwisko - typ znakowy, maksymalnie 32 znaki, wymagane,
+-- imie - typ znakowy, maksymalnie 16 znaków, wymagane,
+-- dataUrodzenia - data, wymagane,
+-- dzial - typ znakowy, dokładnie 5 znaków, wymagane, klucz obcy odwołujący się do pola iddzialu w relacji dzialy,
+-- stanowisko - typ znakowy, maksymalnie 24 znaki,
+-- pobory - typ stałoprzecinkowy z dokładnością do 2 miejsc po przecinku.
+-- Ponieważ występują cykliczne zależności między relacjami dzialy i pracownicy, klucz obcy w relacji dzialy należy dodać za pomocą polecenia alter table po utworzeniu obu relacji:
+
+-- alter table dzialy add constraint dzial_fk foreign key(kierownik) 
+--   references pracownicy(idpracownika) on update cascade deferrable;

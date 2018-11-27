@@ -1,0 +1,68 @@
+-- baza danych: kwiaciarnia
+
+-- Tworzona baza danych ma stanowić podstawę dla istnienia internetowej kwiaciarni. Z jednej strony ma ona umożliwić klientowi wybór jednej lub kilku z gotowych kompozycji z oferty kwiaciarni. Przy złożeniu zamówienia klient musi podać swoje dane (identyfikator i hasło) lub zarejestrować się w systemie jeśli jest nowym klientem (korzysta z kwiaciarni pierwszy raz). Poza tym klient musi określić, gdzie mają dostarczone zostać kwiaty i osobę, której mają one zostać przekazane. Z drugiej strony baza danych ma stanowić podstawę zarządzania kwiaciarnią. Powinny być w niej przechowywane informacje o aktualnych zasobach kwiaciarni (ilości poszczególnych kompozycji) i automatycznie zgłaszane zapotrzebowanie na wyczerpujące się zasoby.
+
+-- Przygotuj skrypt implementujący bazę danych kwiaciarnia zgodnie z przedstawionym poniżej projektem i opisem.
+
+-- Uwaga: Baza danych kwiaciarnia ma zostać umieszczona w schemacie kwiaciarnia (patrz zadanie 1.1).
+
+-- Uwaga: zapis maksymalnie n znaków oznacza, że należy użyć typ varchar(n). Zapis dokładnie n znaków oznacza, że należy użyć typ char(n).
+
+-- Uwaga: Sprawdź jaka jest wartość domyślna w kolumnie odbiorcy.idodbiorcy. Skąd się bierze ta wartość?
+
+create database kwiaciarnia;
+
+create table klienci (
+    idklienta varchar(10) primary key,
+    haslo varchar(10) check(length(haslo) >=4) not null,
+    nazwa varchar(40) not null,
+    miasto varchar(40) not null,
+    kod char(6) not null,
+    adres varchar(40) not null,
+    email varchar(40),
+    telefon varchar(16) not null,
+    fax varchar(16),
+    nip char(13),
+    regon char(9)
+);
+
+create table kompozycje (
+    idkompozycji char(5) primary key,
+    nazwa varchar(40) not null,
+    opis varchar(100),
+    cena decimal(2) check(cena > 40),
+    minimum integer,
+    stan integer
+);
+
+create table odbiorcy (
+    idodbiorcy serial primary key,
+    nazwa varchar(40) not null,
+    miasto varchar(40) not null,
+    kod char(6) not null,
+    adres varchar(40) not null
+);
+
+create table zamowienia (
+    idzamowienia integer primary key,
+    idklienta varchar(10) references klienci not null,
+    idodbiorcy integer references odbiorcy not null,
+    idkompozycji char(5) references kompozycje not null,
+    termin date not null,
+    cena decimal(2),
+    zaplacone boolean,
+    uwagi varchar(200)
+);
+
+create table historia (
+    idzamowienia integer primary key,
+    idklienta varchar(10),
+    idkompozycji char(5),
+    cena decimal(2),
+    termin date
+);
+
+create table zapotrzebowanie (
+    idkompozycji char(5) primary key references kompozycje,
+    data date
+);

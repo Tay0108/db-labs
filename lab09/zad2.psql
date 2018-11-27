@@ -1,0 +1,29 @@
+-- baza danych: kwiaciarnia
+
+-- Wykonaj skrypt tworzący relacje w bazie danych kwiaciarnia.
+-- Przygotuj odpowiednio dane z pliku kwiaciarnia2dane-tekst.txt i zaimportuj je do bazy danych.
+-- Sprawdź (np. wykonując zapytania), czy wszystkie dane zostały zaimportowane do bazy danych.
+-- Jak sprawdzić wartość klucza głównego dla ostatnio dodanego rekodu do tabeli odbiorcy w ramach tej samej sesji?
+-- COPY
+-- Dokumentacja: http://www.postgresql.org/docs/9.1/static/sql-copy.html
+
+-- Zwykły użytkownik (nie postgres) może kopiować dane wyłącznie z stdin. Zatem w skrypcie przed pierwszym wierszem z danymi kopiowanymi do relacji abc należy umieścić polecenie:
+
+-- copy abc from stdin with (... odpowiednie opcje);
+-- Po ostatnim wierszu danych kopiowanych do relacji abc umieszczamy linię:
+
+-- \.
+-- W jednym skrypcie można umieścić kilka poleceń copy, kopiujących dane do różnych relacji w bazie danych.
+
+-- copy kwiaciarnia.klienci from stdin with (delimiter ';', null 'BRAK DANYCH');
+-- copy kwiaciarnia.odbiorcy(nazwa,miasto,kod,adres) from stdin with (delimiter ';', null 'BRAK DANYCH');
+-- Uwaga: Ze względu na typ serial w przypadku relacji odbiorcy konieczne jest wskazanie atrybutów dla których kopiujemy dane.
+
+-- Zweryfikuj działanie sekwencji. Otwórz dwie sesje z baza danych (dwa emulatoy terminala) A i B. Wykonaj odpowiednio co następuje.
+
+-- sesja A: dodaj odbiorcę: Edmund Pasza.
+-- sesja B: dodaj odbiorcę: Ela Budrys.
+-- sesja A: dodaj zamówienie dla Edmunda Paszy; użyj funkcji currval().
+-- sesja B: dodaj zamówienie dla Eli Budrys; użyj funkcji currval().
+-- Czy w identyfikatory odbiorcy w tabeli zamowienia są poprawne? Dlaczego?
+
