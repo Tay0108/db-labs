@@ -1,0 +1,20 @@
+-- 1. Napisz funkcję zwracającą informacje o zamówieniach złożonych przez klienta, którego identyfikator podawany jest jako argument wywołania funkcji. W/w informacje muszą zawierać: idzamowienia, idpudelka, datarealizacji. Przetestuj działanie funkcji. Uwaga: Funkcja zwraca więcej niż 1 wiersz!
+-- 2. ★ Napisz funkcję zwracającą listę klientów z miejscowości, której nazwa podawana jest jako argument wywołania funkcji. Lista powinna zawierać: nazwę klienta i adres. Przetestuj działanie funkcji.
+
+create type zwracanko as (idzamowienia integer, idpudelka char(4), datarealizacji date);
+
+
+create or replace function zamowieniaInfo(klient integer)
+returns zwracanko as $$
+
+declare
+    zmienna zwracanko;
+begin
+    select idzamowienia, idpudelka, datarealizacji into zmienna from zamowienia natural join artykuly where idklienta = klient;
+    return zmienna;
+end;
+$$
+
+language plpgsql;
+
+select zamowieniaInfo(1);

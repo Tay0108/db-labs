@@ -7,3 +7,4 @@ select sum(masa*sztuk) from zawartosc natural join czekoladki group by idpudelka
 -- 3. ★ średniej masy pudełka w ofercie cukierni,
 select avg(s.suma) from (select sum(masa*sztuk) as suma from zawartosc natural join czekoladki group by idpudelka) as s;
 -- 4. ★ średniej wagi pojedynczej czekoladki w poszczególnych pudełkach,
+select p.idpudelka, avg(cz.masa) from pudelka p  natural join  zawartosc join czekoladki cz using(idczekoladki) group by p.idpudelka;

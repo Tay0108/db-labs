@@ -1,0 +1,133 @@
+-- schema preparation:
+
+create table pomiary (
+    id_pomiaru integer primary key,
+    id_punktu integer references punkty_pomiarowe(id_punktu),
+    czas_pomiaru timestamp,
+    poziom_wody integer
+);
+
+create table punkty_pomiarowe (
+    id_punktu integer primary key,
+    nr_porzadkowy integer,
+    id_gminy: integer references gminy(identyfikator),
+    id_rzeki integer references rzeki(id_rzeki),
+    dlugosc_geogr float,
+    szerokosc_geogr float,
+    stan_ostrzegawczy integer,
+    stan_alarmowy integer
+);
+
+create table ostrzezenia (
+    id_ostrzezenia integer primary key,
+    id_punktu integer references ostrzezenia(id_punktu),
+    czas_ostrzezenia timestamp,
+    przekroczony_stan_ostrz integer,
+    przekroczony_stan_alarm integer,
+    zmiana_poziomu float
+);
+
+create table rzeki (
+    id_rzeki integer primary key,
+    nazwa varchar(30)
+);
+
+create table powiaty (
+    identyfikator integer primary key,
+    nazwa varchar(30),
+    id_wojewodztwa integer references wojewodztwa(identyfikator)
+);
+
+create table gminy (
+    identyfikator integer primary key,
+    nazwa varchar(30),
+    id_powiatu integer
+);
+
+create table wojewodztwa (
+    identyfikator integer primary key,
+    nazwa varchar(30)
+);
+
+-- GR A:
+
+-- zad1:
+select id_ostrzezenia, czas_ostrzezenia, zmiana poziomu from ostrzezenia where czas_ostrzezenia >= (current_date - interval '1.5 years') and zmiana_poziomu >= 0.07;
+
+-- zad2:
+select id_punktu from pomiary except select id_punktu from ostrzezenia where czas_ostrzezenia >= (current_date - interval '2 months');
+
+-- zad3:
+select distinct nazwa from gminy g join punkty_pomiarowe pp on(g.identyfikator=pp.id_gminy) natural join ostrzezenia o where o.przekroczony_stan_alarm is not null;
+
+-- zad4:
+WITH poziomy AS (
+    SELECT czas_pomiaru as dzien, poziom_wody as poziom, rzeki.nazwa as nazwa
+    from pomiary JOIN punkty_pomiarowe using (id_punktu)
+    JOIN rzeki using (id_rzeki)
+    ),
+najwyzsze AS (
+    SELECT max(poziom) as maxpoziom, nazwa FROM poziomy GROUP BY(nazwa)
+    )
+
+select * from poziomy WHERE (nazwa, poziom) in (SELECT nazwa, maxpoziom FROM najwyzsze);
+
+
+-- zad5:
+update punkty_pomiarowe set stan_alarmowy=stan_alarmowy-5 where id=10;
+update ostrzezenia set przekroczony_stan_alarm = from punkty_pomiarowe;
+
+-- GR B:
+
+-- zad1:
+select id_punktu, stan_alarmowy, stan_ostrzegawczy from punkty_pomiarowe pp join gminy g on(pp.id_gminy=g.identyfikator) where id_gminy=5 and pp.stan_alarmowy >= 5*pi()/100*pp.stan_ostrzegawczy;
+
+-- zad2:
+select identyfikator from gminy where id_powiatu = 1 except select id_gminy as identyfikator from punkty_pomiarowe where pp.id_rzeki=1;
+
+-- zad3:
+select pp.id_punktu, pp.stan_alarmowy from punkty_pomiarowe pp natural join rzeki rz join gminy g on(pp.id_gminy=g.identyfikator) where rz.nazwa='Wisła' and g.nazwa='Skoczów';
+
+-- zad4:
+with wszystkie_pomiary as (
+    select p.czas_pomiaru, p.poziom_wody, g.nazwa from pomiary p natural join punkty_pomiarowe pp join gminy g on(pp.id_gminy=g.identyfikator)
+),
+
+maksymalne_pomiary as (
+    select max(poziom_wody), nazwa from wszystkie_pomiary group by nazwa
+)
+
+select czas_pomiaru, nazwa, poziom_wody from wszystkie_pomiary where nazwa, poziom_wody in (select nazwa, poziom_Wody from maksymalne_pomiary);
+
+-- zad5:
+insert into punkty_pomiarowe select 34, 10, 246, 3, 50.134, 22.11,stan_ostrzegawczy, stan_alarmowy from punkty_pomiarowe where id_punktu=25;
+
+
+-- misc:
+
+-- wszystkie rzeki na których pomiary były nie wczesniej niz miesiac temu:
+select distinct rz.nazwa from rzeki rz natural join punkty_pomiarowe pp natural join pomiary p where czas_pomiaru >= (current_date - interval '1 month');
+
+-- wszystkie pomiary z gminami, rzekami, gminami, powiatami, województwami
+select * from pomiary natural join punkty_pomiarowe natural join rzeki join gminy on(g.identyfikator=pp.id_gminy) join powiaty po on(g.id_powiatu=po.identyfikator)
+
+
+select id_ostrz, czas_ostrz, zmiana_poziomu from ostrzezenia where czas_ostrz < (current_timestamp - interval'1.5 years') and zmiana_poziomu > 0.07;
+
+select id_punktu from pomiary except select id_punktu from ostrzezenia where czas_ostrzezenia <= current_timestamp - interval '2 months';
+
+select distinct nazwa from gminy join punkty_pomiarowe on (g.identyfikator=id_gminy) natural join ostrzezenia where przekroczony_stan_alarm is not null;
+
+with poziomy as (
+    select p.czas_pomiaru as czas, p.poziom_wody as poziom rz.nazwa as nazwa from pomiary p natural join punkty_pomiarowe pp natural join rzeki rz
+),
+ maksymalne as (
+     select max(poziom), nazwa from poziomy group by nazwa;
+ )
+
+select * from poziomy where (poziom,nazwa) in (select * from maksymalne);
+
+update punkty_pomiarowe set stan_alarmowy=stan_alarmowy-5 where id = 10;
+ update ostrzezenia set przekroczony_stan_alarm 
+
+

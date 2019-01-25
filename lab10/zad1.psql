@@ -1,0 +1,32 @@
+-- baza danych: cukiernia
+
+-- Przeanalizuj poniższe zapytania i zinterpretuj ich znaczenie. Zwróć uwagę na operatory w klauzuli where:
+
+SELECT DISTINCT nazwa 
+FROM pudelka NATURAL JOIN zawartosc 
+WHERE idczekoladki 
+  IN (SELECT idczekoladki FROM czekoladki ORDER BY koszt LIMIT 3);
+
+  -- czyli to jest zapytanie, które wyswietla nazwy tych pudelek w których znajduje sie przynajmniej 
+--  jedna z trzech najdrozszych czekoladek.
+ 
+SELECT nazwa
+FROM czekoladki 
+WHERE koszt = (SELECT MAX(koszt) FROM czekoladki);
+
+-- wybiera te czekoladki ktorych koszt jest najwyzszy
+
+-- Zwróć uwagę na umiejscowienie podzapytania, oraz ewentualną ilość wierszy/kolumn które zwraca.
+
+SELECT p.nazwa, idpudelka 
+FROM (SELECT idczekoladki FROM czekoladki ORDER BY koszt LIMIT 3) 
+  AS ulubioneczekoladki 
+NATURAL JOIN zawartosc 
+NATURAL JOIN pudelka p;
+
+-- to zapytanie wyciaga dane o pudelku ktore zawiera 3 najdrozsze czekoladki (czyli to samo co nr1, ale zachowuje duplikaty)
+ 
+SELECT nazwa, koszt, (SELECT MAX(koszt) FROM czekoladki) AS MAX FROM czekoladki;
+
+-- wybiera wszyskie nazwy i koszty czekoladek a obok najwiekszy koszt ze wszystkich
+

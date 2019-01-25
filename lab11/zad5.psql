@@ -1,0 +1,31 @@
+-- Napisz funkcję obnizka odwracająca zmiany wprowadzone w poprzedniej funkcji. Przetestuj działanie funkcji.
+
+
+create or replace function obnizka() 
+returns void as $$
+
+DECLARE
+
+czokolate czekoladki%rowtype;
+
+BEGIN
+
+for czokolate in select * from czekoladki
+loop
+
+if czokolate.koszt < 0.23 THEN
+    update czekoladki set koszt = czokolate.koszt - 0.03 where idczekoladki = czokolate.idczekoladki;
+elseif czokolate.koszt >= 0.23 and czokolate.koszt <= 0.33 then
+    update czekoladki set koszt = czokolate.koszt - 0.04 where idczekoladki = czokolate.idczekoladki;
+else
+    update czekoladki set koszt = czokolate.koszt - 0.05 where idczekoladki = czokolate.idczekoladki;
+end if;
+end loop;
+
+end;
+ $$
+ language plpgsql;
+
+ select obnizka();
+
+ select * from czekoladki;

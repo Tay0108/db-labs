@@ -23,9 +23,9 @@
     select distinct on(p.nazwa) p.nazwa, p.opis, p.cena from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where cz.orzechy is not null;
 
 -- 8. ★ zawierają czekoladki Gorzka truskawkowa,
-
+    select p.nazwa, p.opis, p.cena, cz.czekolada, cz.nadzienie from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where czekolada='gorzka' and nadzienie='truskawki';
 -- 9. ★ zawierają przynajmniej jedną czekoladkę bez nadzienia.
-
+    select distinct p.nazwa, p.opis, p.cena, cz.nadzienie from pudelka p natural join zawartosc join czekoladki cz using(idczekoladki) where nadzienie is null; 
 
 -- W każdym zapytaniu należy dodać dodatkowe pola (poza danymi o pudełkach), które pozwolą sprawdzić, czy wynik jest poprawny.
 

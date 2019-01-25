@@ -1,0 +1,38 @@
+-- 6. (6 pkt.) Napisz funkcje korektaStanuAlarmowego przyjmującą identyfikator
+--  punktu pomiarowego (id_punktu), która zmienia aktualną wartość pola stan_alarmowy 
+--  podanego punktu na wartość będącą srednią wszystkich stanów alarmowych punktów pomiarowych 
+--  znajdujacych sie na terenie tej samej gminy w której lezy modyfikowany punkt pomiarowy.
+--   Ostrzeżenia nie muszą być aktualizowane, poniewaz są wpisami archiwalnymi. 
+
+
+create or replace function korektaStanuAlarmowego(punkt integer)
+returns void as $$ 
+
+declare
+srednia integer;
+gmina integer;
+begin
+select id_gminy into gmina from punkty_pomiarowe where id_punktu = punkt;
+select avg(stan_alarmowy) into srednia from punkty_pomiarowe where id_gminy = gmina;
+update punkty_pomiarowe set stan_alarmowy = srednia where id_punktu = punkt;
+end;
+
+
+$$
+language plpgsql;
+
+select korektaStanuAlarmowego(2);
+
+
+select datarealizacji, idzamowienia, idklienta from zamowienia z where exists(select idklienta from klienci k where z.idklienta = k.idklienta and k.nazwa like '%Antoni');
+
+
+
+
+
+
+
+select idpudelka, idczekoladki from zawartosc;
+
+
+  

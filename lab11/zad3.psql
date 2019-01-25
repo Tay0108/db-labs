@@ -1,0 +1,44 @@
+-- 1. Napisz funkcję sumaZamowien obliczającą łączną wartość zamówień złożonych przez klienta, które czekają na realizację (są w tabeli Zamowienia). Funkcja jako argument przyjmuje identyfikator klienta. Przetestuj działanie funkcji.
+-- 2.Napisz funkcję rabat obliczającą rabat jaki otrzymuje klient składający zamówienie. Funkcja jako argument przyjmuje identyfikator klienta. Rabat wyliczany jest na podstawie wcześniej złożonych zamówień w sposób następujący:
+--  4% jeśli wartość zamówień jest z przedziału 101-200 zł;
+--  7% jeśli wartość zamówień jest z przedziału 201-400 zł;
+--  8% jeśli wartość zamówień jest większa od 400 zł.
+
+
+create or replace function sumaZamowien(idKlient integer)
+returns float as $$
+
+declare
+    suma float;
+begin
+    select sum(cena*a.sztuk) into suma from zamowienia z natural join artykuly a join pudelka p using(idpudelka) where idklienta = idKlient;
+
+    return suma;
+end;
+
+$$
+language plpgsql;
+
+select sumaZamowien(2);
+
+
+create or replace function rabat(klient integer)
+returns float as $$
+
+declare
+    wartoscZamowien float;
+    rabacik float;
+begin
+    select sum(p.cena*a.sztuk) into wartoscZamowien from zamowienia z natural join artykuly a join pudelka p using(idpudelka) where idklienta = klient;
+
+    return case
+    when wartoscZamowien >= 101 and wartoscZamowien <= 200 then 4
+    when wartoscZamowien >= 201 and wartoscZamowien <= 400 then 7
+    when wartoscZamowien > 400 then 8
+    end;
+
+end;
+$$
+language plpgsql;
+
+select rabat(3);

@@ -3,9 +3,18 @@
 -- Napisz poniższe zapytania w języku SQL:
 
 -- 1. Wyświetl wartości kluczy głównych oraz nazwy czekoladek, których koszt jest większy od kosztu czekoladki o wartości klucza głównego równej d08.
+    select idczekoladki, nazwa, koszt from czekoladki where koszt > (select koszt from czekoladki where idczekoladki='d08');
 -- 2. Kto (nazwa klienta) złożył zamówienia na takie same czekoladki (pudełka) jak zamawiała Górka Alicja.
+    with alicja as (select k.nazwa k1, p.nazwa p1 from klienci k natural join zamowienia natural join artykuly join pudelka p using (idpudelka) where k.nazwa='Górka Alicja'), 
+    reszta as (select distinct on(k.nazwa) k.nazwa k2, p.nazwa p1 from klienci k natural join zamowienia natural join artykuly join pudelka p using (idpudelka))
+    select distinct k2, p1 from alicja join reszta using(p1) order by p1;
 -- 3. ★ Kto (nazwa klienta, adres) złożył zamówienia na takie same czekoladki (pudełka) jak zamawiali klienci z Katowic.
+    with klienci_katowice as (select k.miejscowosc, p.nazwa pnazwa from klienci k natural join zamowienia natural join artykuly join pudelka p using(idpudelka) where k.miejscowosc='Katowice')
+    select distinct on(k.nazwa) k.nazwa, p.nazwa from klienci_katowice, klienci k natural join zamowienia natural join artykuly join pudelka p using(idpudelka) where (pnazwa=p.nazwa); 
+    -- równoważne:
+    select distinct on(k2.nazwa) k2.nazwa, p2.nazwa from  klienci k1 natural join zamowienia z1 natural join artykuly a1 join pudelka p1 using(idpudelka), klienci k2 natural join zamowienia z2 natural join artykuly a2 join pudelka p2 using(idpudelka) where (k1.miejscowosc='Katowice' and p1.nazwa=p2.nazwa); 
 
 -- Uwaga: w powyższych zapytaniach należy użyć samozłączeń (złączeń własnych).
 
 -- Wskazówka: Zapytanie w punkcie 2 można znacznie uprościć stosując konstrukcję z WITH.
+

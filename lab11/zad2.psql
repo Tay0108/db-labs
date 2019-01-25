@@ -1,0 +1,27 @@
+-- 1. Napisz funkcję zysk obliczającą zysk jaki cukiernia uzyskuje ze sprzedaży jednego pudełka czekoladek, zakładając, że zysk ten jest różnicą między ceną pudełka, a kosztem wytworzenia zawartych w nim czekoladek i kosztem opakowania (0,90 zł dla każdego pudełka). Funkcja jako argument przyjmuje identyfikator pudełka. Przetestuj działanie funkcji na podstawie prostej instrukcji select.
+-- 2. Napisz instrukcję select obliczającą zysk jaki cukiernia uzyska ze sprzedaży pudełek zamówionych w wybranym dniu.
+
+
+ -- 1:
+
+create or replace function zysk(idPudla text)
+returns float as $$ 
+
+declare
+calyZysk float;
+kosztCzekoladek float;
+cenaPudelka float;
+
+begin
+    select sum(koszt*sztuk) into kosztCzekoladek from zawartosc z join czekoladki cz using(idczekoladki) where idPudelka = idPudla;
+    select cena into cenaPudelka from pudelka where idPudelka = idPudla;
+
+    calyZysk := cenaPudelka - kosztCzekoladek - 0.9;
+    return calyZysk;
+end;
+$$
+language plpgsql;
+
+select zysk('autu');
+
+-- 2:

@@ -1,0 +1,40 @@
+Dana jest relacja R o schemacie H = {P,O,E,B,K}:
+
+Pracownik,
+Oddział,
+Email (pracownik może mieć wiele adresów email, po jednym dla każdego z oddziałów firmy),
+Biurko (oznaczenie),
+Komputer (oznaczenie)
+oraz zbiór zależności funkcyjnych F = {{P,O} → E, {P,E} → O, {P,O} → B, B → K}
+
+1. Wyznacz wszystkie klucze relacji R.
+2. Wyznacz co najmniej 5 nietrywialnych i prostych zależności funkcyjnych należących do F+, ale nie należących do F.
+3. Sprawdź czy F jest minimalny.
+
+
+Rozwiązanie:
+
+ad1:
+
+Nadklucze:
+{P,O,E,B,K}
+{P,O,E,B}
+{P,O,E,K}
+{P,O,E}
+{P,O,K}
+{P,O,B}
+{P,E,K}
+{P,E,B}
+{P,O}
+{P,E}
+
+Klucze (minimalne nadklucze):
+
+Mając {P,O} możemy dostać wszystko co jest po prawej stronie
+Mając {P,E} również
+
+
+ad2
+
+
+
